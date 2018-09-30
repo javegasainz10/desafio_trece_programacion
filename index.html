@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SWAPI</title>
+</head>
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        function getData (url, callBack) {
+        $.ajax(url)
+            .done(function (data) {
+            callBack(true, data)
+            })
+            .fail(function (error) {
+            callBack(false, error)
+            })
+        }
+
+        getData('https://swapi.co/api/people/?page=5', function getAllList (status, data) {
+            if (status === true) {
+                showNames(data.results)
+        }
+            if (data.next) {
+                getData(data.next, getAllList)
+            }
+        })
+
+        function showNames (results) {
+            for (var i = 0; i < results.length; i++) {
+            console.log(results[i].name)
+            }
+        }
+    </script>
+</body>
+</html>
